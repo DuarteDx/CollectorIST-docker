@@ -4,7 +4,6 @@ Start application
 
 ```
 docker-commpose up
-npm start
 ```
 
 Stop application
