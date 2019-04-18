@@ -32,7 +32,7 @@ mongo:
   ...
 ```
 
-##Other docker commands
+## Other docker commands
 
 List Docker CLI commands
 ```
