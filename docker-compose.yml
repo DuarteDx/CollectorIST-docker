@@ -1,21 +1,21 @@
 version: '3.1'
 services:
   mongo:
-    container_name: mongo-sotis
+    container_name: mongo-collector
     image: mongo:4.0
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=root
-      - MONGO_USERNAME=sotis
-      - MONGO_PASSWORD=sotis
-      - MONGO_DATABASE=sotis
+      - MONGO_USERNAME=collector
+      - MONGO_PASSWORD=collector
+      - MONGO_DATABASE=collector
     ports:
       - 127.0.0.1:27017:27017
     volumes:
       - "./entrypoint.sh:/docker-entrypoint-initdb.d/entrypoint.sh"
-      # - "$DUMP_SOTIS_FILE:/dump/sotis.gz"
+      # - "$DUMP_COLLECTOR_FILE:/dump/collector.gz"
   consul:
-    container_name: consul-sotis
+    container_name: consul-collector
     image: consul:1.0.6
     environment:
      - 'CONSUL_LOCAL_CONFIG={"acl_master_token": "changeme"}'
@@ -23,7 +23,7 @@ services:
      - 127.0.0.1:8500:8500
     command: ["agent", "-enable-script-checks", "-dev", "-client", "0.0.0.0"]
   elasticsearch:
-    container_name: elasticsearch-sotis
+    container_name: elasticsearch-collector
     image: elasticsearch:5.6.11
     ports:
      - 127.0.0.1:9200:9200
@@ -37,12 +37,12 @@ services:
         soft: -1
         hard: -1
   elastichq:
-    container_name: elastihq-sotis
+    container_name: elastihq-collector
     image: elastichq/elasticsearch-hq
     ports:
      - 127.0.0.1:5000:5000
   fakesmtp:
-    container_name: fakesmtp-sotis
+    container_name: fakesmtp-collector
     image: gessnerfl/fake-smtp-server
     ports:
       - 5025:5025
