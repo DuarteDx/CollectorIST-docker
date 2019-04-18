@@ -1,4 +1,4 @@
-# Scholar docker compose for development
+# Collector IST docker compose for development
 
 ## Loading dump file
 
