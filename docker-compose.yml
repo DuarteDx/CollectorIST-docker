@@ -1,0 +1,51 @@
+version: '3.1'
+services:
+  mongo:
+    container_name: mongo-sotis
+    image: mongo:4.0
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_USERNAME=sotis
+      - MONGO_PASSWORD=sotis
+      - MONGO_DATABASE=sotis
+    ports:
+      - 127.0.0.1:27017:27017
+    volumes:
+      - "./entrypoint.sh:/docker-entrypoint-initdb.d/entrypoint.sh"
+      # - "$DUMP_SOTIS_FILE:/dump/sotis.gz"
+  consul:
+    container_name: consul-sotis
+    image: consul:1.0.6
+    environment:
+     - 'CONSUL_LOCAL_CONFIG={"acl_master_token": "changeme"}'
+    ports:
+     - 127.0.0.1:8500:8500
+    command: ["agent", "-enable-script-checks", "-dev", "-client", "0.0.0.0"]
+  elasticsearch:
+    container_name: elasticsearch-sotis
+    image: elasticsearch:5.6.11
+    ports:
+     - 127.0.0.1:9200:9200
+    environment:
+      - http.host=0.0.0.0
+      # Disable X-Pack security: https://www.elastic.co/guide/en/elasticsearch/reference/5.5/security-settings.html#general-security-settings
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  elastichq:
+    container_name: elastihq-sotis
+    image: elastichq/elasticsearch-hq
+    ports:
+     - 127.0.0.1:5000:5000
+  fakesmtp:
+    container_name: fakesmtp-sotis
+    image: gessnerfl/fake-smtp-server
+    ports:
+      - 5025:5025
+      - 5080:5080
+
+
