@@ -1,5 +1,18 @@
 # Collector IST docker compose for development
 
+Start application
+
+```
+docker-commpose up
+npm start
+```
+
+Stop application
+
+```
+docker-compose down
+```
+
 ## Loading dump file
 
 You need to define the `DUMP_SOTIS_FILE` environment variable
